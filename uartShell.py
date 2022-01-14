@@ -32,8 +32,6 @@ s.read_until("/bin/sh: can't access tty; job control turned off".encode("utf-8")
 print("[+] Got /bin/sh shell")
 print("[+] Setting up linux...")
 
-
-
 s.write("./linuxrc &\r\n".encode("utf-8"))
 
 time.sleep(10)
