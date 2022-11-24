@@ -24,6 +24,7 @@ s.timeout = 1
 while "SigmaStar #" in s.readline().decode("utf-8", errors="ignore"): pass
 s.timeout = None
 
+# Overwrite bootargs so that /bin/sh is executed instead of ./linuxrc, which is the script that sets up linux
 s.write("setenv bootargs console=ttyS0,115200 root=/dev/mtdblock2 rootfstype=squashfs ro init=/bin/sh LX_MEM=0x3fe0000 mma_heap=mma_heap_name0,miu=0,sz=0x1400000 mma_memblock_remove=1\r\n".encode("utf-8"))
 s.write("run bootcmd\r\n".encode("utf-8"))
 
@@ -32,6 +33,7 @@ s.read_until("/bin/sh: can't access tty; job control turned off".encode("utf-8")
 print("[+] Got /bin/sh shell")
 print("[+] Setting up linux...")
 
+# Since we prevented the bootloader from booting linux and executed /bin/sh instead, not it's time to do it so that the camera can work as regular
 s.write("./linuxrc &\r\n".encode("utf-8"))
 
 time.sleep(10)
